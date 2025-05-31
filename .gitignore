@@ -2,5 +2,7 @@ node_modules/
 clones/
 dist/
 report.html
+.eslintcache
+.prettiercache
 *.orig
 *.rej
