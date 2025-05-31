@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Firefox WebIDL Comparison Report</title>
+  <title>Firefox WebIDL Report</title>
   <style>
     :root {
       --primary: #2c3e50;
@@ -60,15 +60,25 @@
       border-radius: 8px;
       padding: 1rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      /* ensure a minimum height so that all cards line up */
+      min-height: 6rem;
     }
     .card h3 {
       margin: 0 0 .5rem;
       font-size: 1rem;
       color: var(--accent);
+      /* force consistent title height (two lines) to align values */
+      min-height: 2.5rem;
+      line-height: 1.25rem;
     }
     .card .value {
       font-size: 1.5rem;
       font-weight: bold;
+      /* align value to bottom of card */
+      margin-top: auto;
     }
 
     /* Accordion styling */
@@ -127,6 +137,7 @@
     .badge.Extra { background: var(--warning); }
     .badge.Member { background: var(--accent); }
     .badge.Enum { background: var(--success); }
+    .badge.other { background: var(--accent); }
 
     /* Responsive overflow */
     .table-container {
@@ -180,7 +191,7 @@
 </head>
 <body>
   <header>
-    <h1>Firefox WebIDL Comparison Report</h1>
+    <h1>Firefox WebIDL Report</h1>
   </header>
   <main>
     <% if (!rows.length) { %>
@@ -221,7 +232,7 @@
         <div class="card">
           <h3>Other changes</h3>
           <div class="value">
-            <span class="badge warning">
+            <span class="badge other">
               <%= rows.filter(r => !Object.keys(changes).includes(r.change)).length %>
             </span>
           </div>
