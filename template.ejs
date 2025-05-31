@@ -38,6 +38,16 @@
       padding: 0 1rem;
     }
 
+    /* Filter input styling */
+    #filterInput {
+      width: 100%;
+      padding: 0.5rem 1rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
     /* Summary cards */
     .cards {
       display: grid;
@@ -126,6 +136,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Sortable table columns
       document.querySelectorAll('.report-table th').forEach((th, idx) => {
         th.addEventListener('click', () => {
           const table = th.closest('table');
@@ -141,6 +152,27 @@
           });
           th.asc = asc;
           rows.forEach(r => tbody.appendChild(r));
+        });
+      });
+
+      // Filter logic
+      const filterInput = document.getElementById('filterInput');
+      filterInput.addEventListener('input', () => {
+        const query = filterInput.value.toLowerCase();
+
+        // For each table row, show or hide based on match
+        document.querySelectorAll('.report-table tbody tr').forEach(row => {
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(query) ? '' : 'none';
+        });
+
+        // For each <details>, expand if it has any visible rows, otherwise collapse
+        document.querySelectorAll('details').forEach(section => {
+          // Find rows within this section
+          const rowsInSection = section.querySelectorAll('tbody tr');
+          // Check if at least one row is visible
+          const hasMatch = Array.from(rowsInSection).some(r => r.style.display !== 'none');
+          section.open = hasMatch;
         });
       });
     });
@@ -194,6 +226,15 @@
             </span>
           </div>
         </div>
+      </div>
+
+      <!-- Filter Input -->
+      <div>
+        <input
+          type="text"
+          id="filterInput"
+          placeholder="Type to filter lists…"
+        />
       </div>
 
       <!-- Sections -->
