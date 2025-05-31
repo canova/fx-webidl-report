@@ -1,0 +1,6 @@
+node_modules/
+clones/
+dist/
+report.html
+*.orig
+*.rej
