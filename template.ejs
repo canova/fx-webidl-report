@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Firefox WebIDL Comparison Report</title>
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #ecf0f1;
+      --accent: #36618c;
+      --success: #27ae60;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --font-sans: 'Helvetica Neue', Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      color: var(--primary);
+      margin: 0;
+      padding: 0;
+      background: var(--secondary);
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    header h1 { margin: 0; font-size: 1.75rem; }
+
+    main {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* Summary cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 1rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      margin: 0 0 .5rem;
+      font-size: 1rem;
+      color: var(--accent);
+    }
+    .card .value {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    /* Accordion styling */
+    details {
+      background: white;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+    summary {
+      cursor: pointer;
+      padding: 0.75rem 1rem;
+      font-weight: bold;
+      background: var(--accent);
+      color: white;
+    }
+    details[open] summary {
+      background: var(--primary);
+    }
+
+    /* Table styling */
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+    }
+    .report-table th, .report-table td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+    }
+    .report-table thead th {
+      position: sticky;
+      top: 0;
+      background: var(--secondary);
+      cursor: pointer;
+    }
+    .report-table tbody tr:nth-child(even) {
+      background: #fafafa;
+    }
+    .report-table tbody tr:hover {
+      background: #f0f8ff;
+    }
+
+    /* Badge for change type */
+    .badge {
+      display: inline-block;
+      padding: 0.25em 0.5em;
+      border-radius: 4px;
+      font-size: 0.85em;
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .badge.Missing { background: var(--danger); }
+    .badge.Extra { background: var(--warning); }
+    .badge.Member { background: var(--accent); }
+    .badge.Enum { background: var(--success); }
+
+    /* Responsive overflow */
+    .table-container {
+      overflow-x: auto;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.report-table th').forEach((th, idx) => {
+        th.addEventListener('click', () => {
+          const table = th.closest('table');
+          const tbody = table.tBodies[0];
+          const rows = Array.from(tbody.rows);
+          const asc = !th.asc;
+          rows.sort((a, b) => {
+            const aText = a.cells[idx].innerText.trim();
+            const bText = b.cells[idx].innerText.trim();
+            return asc
+              ? aText.localeCompare(bText)
+              : bText.localeCompare(aText);
+          });
+          th.asc = asc;
+          rows.forEach(r => tbody.appendChild(r));
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Firefox WebIDL Comparison Report</h1>
+  </header>
+  <main>
+    <% if (!rows.length) { %>
+      <p style="text-align:center; font-size:1.25rem; margin-top:2rem;">
+        No differences found! 🎉
+      </p>
+    <% } else { %>
+
+      <!-- Summary Cards -->
+      <div class="cards">
+        <div class="card">
+          <h3>Total IDL files (Firefox)</h3>
+          <div class="value"><%= fxCount %></div>
+        </div>
+        <div class="card">
+          <h3>Total IDL files (WebRef)</h3>
+          <div class="value"><%= spCount %></div>
+        </div>
+        <% let changes = {
+          'Missing IDL in Firefox': 'Missing',
+          'Extra IDL in Firefox': 'Extra',
+          'Member missing in Firefox': 'Member',
+          'Member additional in Firefox': 'Member',
+          'Member changed': 'Member',
+          'Enum value missing in Firefox': 'Enum',
+          'Enum value additional in Firefox': 'Enum'
+        }; %>
+        <% Object.entries(changes).forEach(([label, key]) => { %>
+        <div class="card">
+          <h3><%= label %></h3>
+          <div class="value">
+            <span class="badge <%= key %>">
+              <%= rows.filter(r => r.change===label).length %>
+            </span>
+          </div>
+        </div>
+        <% }) %>
+        <div class="card">
+          <h3>Other changes</h3>
+          <div class="value">
+            <span class="badge warning">
+              <%= rows.filter(r => !Object.keys(changes).includes(r.change)).length %>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sections -->
+      <% function renderSection(title, subset, columns) { %>
+        <details>
+          <summary><%= title %> (<%= subset.length %>)</summary>
+          <% if (!subset.length) { %>
+            <p style="padding:1rem;"><em>None</em></p>
+          <% } else { %>
+            <div class="table-container">
+              <table class="report-table">
+                <thead>
+                  <tr>
+                    <% columns.forEach(c => { %><th><%= c.label %></th><% }) %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% subset.forEach(r => { %>
+                  <tr>
+                    <% columns.forEach(c => { %>
+                      <td><%= c.render(r) %></td>
+                    <% }) %>
+                  </tr>
+                  <% }) %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+        </details>
+      <% } %>
+
+      <section>
+        <h2>IDLs</h2>
+        <% let miss = rows.filter(r => r.change==='Missing IDL in Firefox'); %>
+        <% let extra = rows.filter(r => r.change==='Extra IDL in Firefox'); %>
+        <%- renderSection('Missing IDLs in Firefox', miss, [
+          { label:'Name', render: r => r.defName },
+          { label:'Type', render: r => r.defType },
+        ]) %>
+        <%= renderSection('Extra IDLs in Firefox', extra, [
+          { label:'Name', render: r => r.defName },
+          { label:'Type', render: r => r.defType },
+        ]) %>
+      </section>
+
+      <section>
+        <h2>Members / Attributes</h2>
+        <% let mm = rows.filter(r => r.change==='Member missing in Firefox'); %>
+        <% let ma = rows.filter(r => r.change==='Member additional in Firefox'); %>
+        <% let mc = rows.filter(r => r.change==='Member changed'); %>
+        <%= renderSection('Members missing in Firefox', mm, [
+          { label:'Definition', render: r => `${r.defName} (${r.defType})` },
+          { label:'Member', render: r => r.member },
+        ]) %>
+        <%= renderSection('Members additional in Firefox', ma, [
+          { label:'Definition', render: r => `${r.defName} (${r.defType})` },
+          { label:'Member', render: r => r.member },
+        ]) %>
+        <%= renderSection('Member differences', mc, [
+          { label:'Definition', render: r => `${r.defName} (${r.defType})` },
+          { label:'Member', render: r => r.member },
+          { label:'Differences', render: r => r.detail },
+        ]) %>
+      </section>
+
+      <section>
+        <h2>Enum Values</h2>
+        <% let em = rows.filter(r => r.change==='Enum value missing in Firefox'); %>
+        <% let ea = rows.filter(r => r.change==='Enum value additional in Firefox'); %>
+        <%= renderSection('Enum values missing in Firefox', em, [
+          { label:'Definition', render: r => `${r.defName} (${r.defType})` },
+          { label:'Value', render: r => r.member },
+        ]) %>
+        <%= renderSection('Enum values additional in Firefox', ea, [
+          { label:'Definition', render: r => `${r.defName} (${r.defType})` },
+          { label:'Value', render: r => r.member },
+        ]) %>
+      </section>
+
+      <section>
+        <% let others = rows.filter(r => !Object.keys(changes).includes(r.change)); %>
+        <%= renderSection('Other Changes', others, [
+          { label:'Definition', render: r => `${r.defName} (${r.defType})` },
+          { label:'Differences', render: r => r.detail },
+        ]) %>
+      </section>
+
+    <% } %>
+  </main>
+</body>
+</html>

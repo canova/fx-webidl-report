@@ -1,0 +1,19 @@
+{
+  "name": "fx-webidl-report",
+  "version": "1.0.0",
+  "description": "Generate an HTML report between Firefox and spec WebIDLs",
+  "type": "module",
+  "bin": {
+    "webidl-diff": "./index.js"
+  },
+  "scripts": {
+    "clone": "node index.js clone",
+    "report": "node index.js report",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "webidl2": "^23.0.0",
+    "diff": "^5.1.0",
+    "ejs": "^3.1.9"
+  }
+}
