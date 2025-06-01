@@ -13,7 +13,7 @@ on:
 
 jobs:
   build-and-push:
-    name: Build site and push `dist/` to the `deploy` branch
+    name: Build site and push to the `deploy` branch
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -39,11 +39,6 @@ jobs:
           git add docs
           git commit -m "Deploy the recent report"
 
-      # We're using the community action ad-m/github-push-action to take the
-      # contents of ./dist and force-push them to the root of `deploy` branch.
-      # That way, on the `deploy` branch the only files will be exactly what’s
-      # in dist/, and GitHub Pages will see them at deploy/dist/.
-      #
       - name: Deploy to `deploy` branch
         uses: ad-m/github-push-action@v0.8.0
         with:
