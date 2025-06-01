@@ -74,7 +74,7 @@
 
       <!-- Sections -->
       <% function renderSection(title, subset, columns) { %>
-        <details>
+        <details open>
           <summary><%= title %> (<%= subset.length %>)</summary>
           <% if (!subset.length) { %>
             <p style="padding:1rem;"><em>None</em></p>
