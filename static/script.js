@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const rows = Array.from(tbody.rows);
       const asc = !th.asc;
       rows.sort((a, b) => {
-        const aText = a.cells[idx].innerText.trim();
-        const bText = b.cells[idx].innerText.trim();
+        const aText = a.cells[idx].textContent.trim();
+        const bText = b.cells[idx].textContent.trim();
         return asc ? aText.localeCompare(bText) : bText.localeCompare(aText);
       });
       th.asc = asc;
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const query = filterInput.value.toLowerCase();
     // Filter rows
     document.querySelectorAll(".report-table tbody tr").forEach((row) => {
-      const text = row.innerText.toLowerCase();
+      const text = row.textContent.toLowerCase();
       row.style.display = text.includes(query) ? "" : "none";
     });
     // Expand/collapse sections based on visible rows
