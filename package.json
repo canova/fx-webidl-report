@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Generate an HTML report between Firefox and spec WebIDLs",
   "type": "module",
-  "bin": {
-    "webidl-diff": "./src/index.js"
-  },
   "scripts": {
     "clone": "node src/index.js clone",
     "report": "node src/index.js report",
