@@ -22,11 +22,25 @@ const WEBREF_SUBDIR = "ed/idlnames";
 
 const TEMPLATE_PATH = path.resolve(PROJECT_ROOT, "src/template.ejs");
 
-const DIST_DIR = path.resolve(PROJECT_ROOT, "dist");
+const { cmd, distDir: OVERRIDE_DIST } = parseArgs();
+const DEFAULT_DIST = path.resolve(PROJECT_ROOT, "dist");
+const DIST_DIR = OVERRIDE_DIST || DEFAULT_DIST;
 const OUTPUT_HTML = path.join(DIST_DIR, "index.html");
 const ASSETS = ["styles.css", "script.js"];
 
 // ——— HELPERS ———
+
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const opts = { cmd: args[0] || "start", distDir: null };
+  for (let i = 1; i < args.length; i++) {
+    if ((args[i] === "--dist" || args[i] === "-d") && args[i + 1]) {
+      opts.distDir = path.resolve(PROJECT_ROOT, args[i + 1]);
+      i++;
+    }
+  }
+  return opts;
+}
 
 function ensureDir(dir) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -345,8 +359,6 @@ function compareEnum(fxV = [], spV = [], defName, defType) {
 // ——— MAIN ———
 
 async function main() {
-  const cmd = process.argv[2] || "start";
-
   if (["clone", "start"].includes(cmd)) {
     ensureDir(CLONE_ROOT);
     if (!fs.existsSync(FIREFOX_WEBIDL_DIR)) {

@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Build the report
-        run: npm run start
+        run: npm run deploy
 
       # We're using the community action ad-m/github-push-action to take the
       # contents of ./dist and force-push them to the root of `deploy` branch.
@@ -38,7 +38,7 @@ jobs:
         uses: ad-m/github-push-action@v0.8.0
         with:
           branch: deploy
-          folder: dist
+          folder: docs
           # Overwrite the entire branch each time
           force: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
