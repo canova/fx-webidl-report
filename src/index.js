@@ -387,7 +387,7 @@ async function main() {
     const tpl = fs.readFileSync(TEMPLATE_PATH, "utf8");
     const html = ejs.render(
       tpl,
-      { rows, fxCount: fxFiles.length, spCount: spFiles.length },
+      { rows, fxCount: fxDefs.size, spCount: spDefs.size },
       { rmWhitespace: true },
     );
 
