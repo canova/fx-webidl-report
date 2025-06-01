@@ -32,7 +32,7 @@ header h1 {
   font-size: 1.75rem;
 }
 
-main {
+main, footer {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
@@ -194,4 +194,8 @@ details[open] summary {
 /* Responsive overflow */
 .table-container {
   overflow-x: auto;
+}
+
+footer {
+  text-align: right;
 }
