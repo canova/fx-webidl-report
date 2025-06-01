@@ -1,11 +1,14 @@
 name: Build and Deploy to GitHub Pages
 
-# Trigger once a day
+# Trigger once a day and on every push to main.
 on:
+  push:
+    branches:
+      - main
   schedule:
     # Runs at 00:00 UTC every day.
     - cron: "0 0 * * *"
-  # Allow manual trigger from the Actions tab
+  # Allow manual trigger from the Actions tab.
   workflow_dispatch: {}
 
 jobs:
@@ -29,6 +32,13 @@ jobs:
       - name: Build the report
         run: npm run deploy
 
+      - name: Commit the deployed files
+        run: |
+          git config --local user.name "canova[bot]"
+          git config --local user.email ""
+          git add docs
+          git commit -m "Deploy the recent report"
+
       # We're using the community action ad-m/github-push-action to take the
       # contents of ./dist and force-push them to the root of `deploy` branch.
       # That way, on the `deploy` branch the only files will be exactly what’s
@@ -38,7 +48,5 @@ jobs:
         uses: ad-m/github-push-action@v0.8.0
         with:
           branch: deploy
-          folder: docs
-          # Overwrite the entire branch each time
           force: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
