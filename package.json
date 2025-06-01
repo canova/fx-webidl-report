@@ -12,6 +12,8 @@
     "start": "node index.js",
     "prettier-run": "prettier --check . --cache --cache-strategy content --cache-location .prettiercache",
     "prettier-fix": "prettier --write . --cache --cache-strategy content --cache-location .prettiercache",
+    "lint-js": "eslint *.js static",
+    "lint-js-fix": "npm run lint-js -- --fix",
     "lint-css": "stylelint \"static/**/*.css\"",
     "lint-css-fix": "npm run lint-css -- --fix"
   },
@@ -21,6 +23,10 @@
     "webidl2": "^23.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@eslint/markdown": "^6.4.0",
+    "eslint": "^9.28.0",
+    "globals": "^16.2.0",
     "prettier": "3.5.3",
     "stylelint": "^16.20.0",
     "stylelint-config-standard": "^38.0.0"

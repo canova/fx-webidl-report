@@ -4,7 +4,7 @@ import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
 import webidl from "webidl2";
-const { parse: parseWebIDL, write } = webidl;
+const { parse: parseWebIDL } = webidl;
 import ejs from "ejs";
 
 // ——— CONFIG ———
@@ -85,7 +85,7 @@ function tryParse(src, label) {
 
 // ——— MERGE-DEFINITION MAPS ———
 
-function buildMultiMap(files, ext) {
+function buildMultiMap(files) {
   const multi = new Map();
   let failed = 0;
   for (const fp of files) {
