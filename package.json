@@ -17,7 +17,6 @@
     "prettier-fix": "prettier --write . --cache --cache-strategy content --cache-location .prettiercache"
   },
   "dependencies": {
-    "diff": "^5.1.0",
     "ejs": "^3.1.9",
     "webidl2": "^23.0.0"
   },
