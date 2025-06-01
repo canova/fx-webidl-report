@@ -4,12 +4,12 @@
   "description": "Generate an HTML report between Firefox and spec WebIDLs",
   "type": "module",
   "bin": {
-    "webidl-diff": "./index.js"
+    "webidl-diff": "./src/index.js"
   },
   "scripts": {
-    "clone": "node index.js clone",
-    "report": "node index.js report",
-    "start": "node index.js",
+    "clone": "node src/index.js clone",
+    "report": "node src/index.js report",
+    "start": "node src/index.js",
     "lint": "run-p lint-js lint-css prettier",
     "lint-fix": "run-p lint-js-fix lint-css-fix prettier-fix",
     "lint-js": "eslint *.js static",

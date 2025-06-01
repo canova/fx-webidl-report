@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
@@ -8,7 +6,8 @@ const { parse: parseWebIDL } = webidl;
 import ejs from "ejs";
 
 // ——— CONFIG ———
-const CLONE_ROOT = path.resolve("./clones");
+const PROJECT_ROOT = process.cwd();
+const CLONE_ROOT = path.resolve(PROJECT_ROOT, "clones");
 
 const FIREFOX_DIR = path.join(CLONE_ROOT, "firefox");
 const FIREFOX_WEBIDL_DIR = path.join(FIREFOX_DIR, "dom", "webidl");
@@ -21,10 +20,9 @@ const WEBREF_REPO = "https://github.com/w3c/webref.git";
 const WEBREF_BRANCH = "curated";
 const WEBREF_SUBDIR = "ed/idlnames";
 
-const TEMPLATE_PATH = path.resolve("./template.ejs");
+const TEMPLATE_PATH = path.resolve(PROJECT_ROOT, "src/template.ejs");
 
-// New: output into dist/index.html
-const DIST_DIR = path.resolve("./dist");
+const DIST_DIR = path.resolve(PROJECT_ROOT, "dist");
 const OUTPUT_HTML = path.join(DIST_DIR, "index.html");
 const ASSETS = ["styles.css", "script.js"];
 
@@ -381,14 +379,13 @@ async function main() {
       { rmWhitespace: true },
     );
 
-    // Ensure dist/ exists, then write report to dist/index.html
     ensureDir(DIST_DIR);
     fs.writeFileSync(OUTPUT_HTML, html);
     console.log(`✔ Report written to ${OUTPUT_HTML}`);
 
     // Copy styles.css and script.js into dist/
     ASSETS.forEach((fname) => {
-      const srcPath = path.resolve(`./static/${fname}`);
+      const srcPath = path.resolve(PROJECT_ROOT, `static/${fname}`);
       const destPath = path.join(DIST_DIR, fname);
       if (fs.existsSync(srcPath)) {
         fs.copyFileSync(srcPath, destPath);
