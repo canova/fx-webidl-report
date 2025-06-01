@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Filter logic
-  const filterInput = document.getElementById("filterInput");
+  const filterInput = document.getElementById("filter-input");
   // Function to apply filter and expand/collapse sections
   function applyFilter() {
     const query = filterInput.value.toLowerCase();

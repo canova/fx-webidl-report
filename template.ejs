@@ -29,13 +29,13 @@
           <div class="value"><%= spCount %></div>
         </div>
         <% let changes = {
-          'Missing IDL in Firefox': 'Missing',
-          'Extra IDL in Firefox': 'Extra',
-          'Member missing in Firefox': 'Member',
-          'Member additional in Firefox': 'Member',
-          'Member changed': 'Member',
-          'Enum value missing in Firefox': 'Enum',
-          'Enum value additional in Firefox': 'Enum'
+          'Missing IDL in Firefox': 'missing',
+          'Extra IDL in Firefox': 'extra',
+          'Member missing in Firefox': 'member',
+          'Member additional in Firefox': 'member',
+          'Member changed': 'member',
+          'Enum value missing in Firefox': 'enum',
+          'Enum value additional in Firefox': 'enum'
         }; %>
         <% Object.entries(changes).forEach(([label, key]) => { %>
         <div class="card">
@@ -61,12 +61,12 @@
       <div class="filter-section">
         <input
           type="text"
-          id="filterInput"
+          id="filter-input"
           placeholder="Type to filter lists…"
         />
 
         <!-- Collapse/Expand buttons -->
-        <div class="toggle‐buttons">
+        <div class="toggle-buttons">
           <button id="expand‐all">Expand All</button>
           <button id="collapse‐all">Collapse All</button>
         </div>

@@ -5,7 +5,7 @@
   --success: #27ae60;
   --warning: #f39c12;
   --danger: #e74c3c;
-  --font-sans: 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: 'Helvetica Neue', arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -22,9 +22,13 @@ header {
   background: var(--primary);
   color: white;
   padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 10%);
 }
-header h1 { margin: 0; font-size: 1.75rem; }
+
+header h1 {
+  margin: 0;
+  font-size: 1.75rem; 
+}
 
 main {
   max-width: 1200px;
@@ -33,7 +37,7 @@ main {
 }
 
 /* Filter input styling */
-#filterInput {
+#filter-input {
   padding: 0.5rem 1rem;
   margin-bottom: 1.5rem;
   border: 1px solid #ccc;
@@ -48,7 +52,7 @@ main {
   gap: 1rem;
 }
 
-.toggle‐buttons button {
+.toggle-buttons button {
   margin-right: 0.5em;
   padding: 0.5rem 1rem;
   font-size: 0.9em;
@@ -61,28 +65,34 @@ main {
   gap: 1rem;
   margin-bottom: 2rem;
 }
+
 .card {
   background: white;
   border-radius: 8px;
   padding: 1rem;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 10%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   /* ensure a minimum height so that all cards line up */
   min-height: 6rem;
 }
+
 .card h3 {
   margin: 0 0 .5rem;
   font-size: 1rem;
   color: var(--accent);
+
   /* force consistent title height (two lines) to align values */
   min-height: 2.5rem;
   line-height: 1.25rem;
 }
+
 .card .value {
   font-size: 1.5rem;
   font-weight: bold;
+
   /* align value to bottom of card */
   margin-top: auto;
 }
@@ -92,9 +102,10 @@ details {
   background: white;
   border-radius: 6px;
   margin-bottom: 1rem;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
   overflow: hidden;
 }
+
 summary {
   cursor: pointer;
   padding: 0.75rem 1rem;
@@ -102,6 +113,7 @@ summary {
   background: var(--accent);
   color: white;
 }
+
 details[open] summary {
   background: var(--primary);
 }
@@ -113,15 +125,11 @@ details[open] summary {
   margin: 0;
   table-layout: fixed;
 }
+
 .report-table th, .report-table td {
   padding: 0.75rem 1rem;
   text-align: left;
   word-wrap: break-word;
-}
-
-.report-table th:nth-child(1), .report-table td:nth-child(1),
-.report-table th:nth-child(2),.report-table td:nth-child(2) {
-  width: 25%;
 }
 
 .report-table thead th {
@@ -133,9 +141,16 @@ details[open] summary {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.report-table th:nth-child(1), .report-table td:nth-child(1),
+.report-table th:nth-child(2),.report-table td:nth-child(2) {
+  width: 25%;
+}
+
 .report-table tbody tr:nth-child(even) {
   background: #fafafa;
 }
+
 .report-table tbody tr:hover {
   background: #f0f8ff;
 }
@@ -150,10 +165,10 @@ details[open] summary {
   text-transform: uppercase;
   letter-spacing: .5px;
 }
-.badge.Missing { background: var(--danger); }
-.badge.Extra { background: var(--warning); }
-.badge.Member { background: var(--accent); }
-.badge.Enum { background: var(--success); }
+.badge.missing { background: var(--danger); }
+.badge.extra { background: var(--warning); }
+.badge.member { background: var(--accent); }
+.badge.enum { background: var(--success); }
 .badge.other { background: var(--accent); }
 
 /* Responsive overflow */
