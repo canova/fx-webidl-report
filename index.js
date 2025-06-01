@@ -388,7 +388,7 @@ async function main() {
 
     // Copy styles.css and script.js into dist/
     ASSETS.forEach((fname) => {
-      const srcPath = path.resolve(`./${fname}`);
+      const srcPath = path.resolve(`./static/${fname}`);
       const destPath = path.join(DIST_DIR, fname);
       if (fs.existsSync(srcPath)) {
         fs.copyFileSync(srcPath, destPath);
