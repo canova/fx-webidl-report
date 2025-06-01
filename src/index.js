@@ -1,8 +1,7 @@
 import { execSync } from "child_process";
 import fs from "fs";
 import path from "path";
-import webidl from "webidl2";
-const { parse: parseWebIDL } = webidl;
+import { parse as parseWebIDL } from "webidl2";
 import ejs from "ejs";
 
 // ——— CONFIG ———
