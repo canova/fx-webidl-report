@@ -5,10 +5,12 @@
   --success: #27ae60;
   --warning: #f39c12;
   --danger: #e74c3c;
-  --font-sans: 'Helvetica Neue', arial, sans-serif;
+  --font-sans: "Helvetica Neue", arial, sans-serif;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   font-family: var(--font-sans);
@@ -27,7 +29,7 @@ header {
 
 header h1 {
   margin: 0;
-  font-size: 1.75rem; 
+  font-size: 1.75rem;
 }
 
 main {
@@ -80,7 +82,7 @@ main {
 }
 
 .card h3 {
-  margin: 0 0 .5rem;
+  margin: 0 0 0.5rem;
   font-size: 1rem;
   color: var(--accent);
 
@@ -126,7 +128,8 @@ details[open] summary {
   table-layout: fixed;
 }
 
-.report-table th, .report-table td {
+.report-table th,
+.report-table td {
   padding: 0.75rem 1rem;
   text-align: left;
   word-wrap: break-word;
@@ -142,8 +145,10 @@ details[open] summary {
   white-space: nowrap;
 }
 
-.report-table th:nth-child(1), .report-table td:nth-child(1),
-.report-table th:nth-child(2),.report-table td:nth-child(2) {
+.report-table th:nth-child(1),
+.report-table td:nth-child(1),
+.report-table th:nth-child(2),
+.report-table td:nth-child(2) {
   width: 25%;
 }
 
@@ -163,16 +168,30 @@ details[open] summary {
   font-size: 0.85em;
   color: white;
   text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
-.badge.missing { background: var(--danger); }
-.badge.extra { background: var(--warning); }
-.badge.member { background: var(--accent); }
-.badge.enum { background: var(--success); }
-.badge.other { background: var(--accent); }
+
+.badge.missing {
+  background: var(--danger);
+}
+
+.badge.extra {
+  background: var(--warning);
+}
+
+.badge.member {
+  background: var(--accent);
+}
+
+.badge.enum {
+  background: var(--success);
+}
+
+.badge.other {
+  background: var(--accent);
+}
 
 /* Responsive overflow */
 .table-container {
   overflow-x: auto;
 }
-

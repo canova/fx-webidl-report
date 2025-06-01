@@ -4,7 +4,7 @@ name: Build and Deploy to GitHub Pages
 on:
   schedule:
     # Runs at 00:00 UTC every day.
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
   # Allow manual trigger from the Actions tab
   workflow_dispatch: {}
 
@@ -21,7 +21,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Install dependencies
         run: npm install
@@ -42,4 +42,3 @@ jobs:
           # Overwrite the entire branch each time
           force: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
