@@ -10,6 +10,7 @@
   <header>
     <h1>Firefox WebIDL Report</h1>
   </header>
+
   <main>
     <% if (!rows.length) { %>
       <p style="text-align:center; font-size:1.25rem; margin-top:2rem;">
@@ -57,12 +58,18 @@
       </div>
 
       <!-- Filter Input -->
-      <div>
+      <div class="filter-section">
         <input
           type="text"
           id="filterInput"
           placeholder="Type to filter lists…"
         />
+
+        <!-- Collapse/Expand buttons -->
+        <div class="toggle‐buttons">
+          <button id="expand‐all">Expand All</button>
+          <button id="collapse‐all">Collapse All</button>
+        </div>
       </div>
 
       <!-- Sections -->

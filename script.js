@@ -57,4 +57,15 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState(null, "", newUrl);
     applyFilter();
   });
+
+  const expandAllBtn = document.getElementById("expand‐all");
+  const collapseAllBtn = document.getElementById("collapse‐all");
+
+  expandAllBtn.addEventListener("click", () => {
+    document.querySelectorAll("details").forEach((d) => (d.open = true));
+  });
+
+  collapseAllBtn.addEventListener("click", () => {
+    document.querySelectorAll("details").forEach((d) => (d.open = false));
+  });
 });
