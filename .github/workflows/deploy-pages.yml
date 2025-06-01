@@ -1,0 +1,45 @@
+name: Build and Deploy to GitHub Pages
+
+# Trigger once a day
+on:
+  schedule:
+    # Runs at 00:00 UTC every day.
+    - cron: '0 0 * * *'
+  # Allow manual trigger from the Actions tab
+  workflow_dispatch: {}
+
+jobs:
+  build-and-push:
+    name: Build site and push `dist/` to the `deploy` branch
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the report
+        run: npm run start
+
+      # We're using the community action ad-m/github-push-action to take the
+      # contents of ./dist and force-push them to the root of `deploy` branch.
+      # That way, on the `deploy` branch the only files will be exactly what’s
+      # in dist/, and GitHub Pages will see them at deploy/dist/.
+      #
+      - name: Deploy to `deploy` branch
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          branch: deploy
+          folder: dist
+          # Overwrite the entire branch each time
+          force: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
