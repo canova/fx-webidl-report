@@ -79,12 +79,17 @@ function getAllFiles(dir, ext = ".webidl") {
 
 function tryParse(src, label) {
   let srcText = src
-    // 1) remove “[...Exposed=...]” blocks (even multi-line) plus their newline
-    .replace(/\[((?:(?!\]).)*?Exposed=[\s\S]*?)\]\r?\n?/g, "")
-    // 2) remove any “interface Name;” declarations (no body) plus their newline
+    // Remove interfaces without body: “interface Name;”
     .replace(/^\s*interface\s+[A-Za-z_$][\w$]*\s*;\r?\n?/gm, "")
-    .replace(/\battribute\s+sequence</g, "attribute FrozenArray<")
-    .replace(/^#.*\r?\n?/gm, "");
+    // Remove preprocessor lines that are not possible to parse.
+    .replace(/^#.*\r?\n?/gm, "")
+    // Firefox has a few "callback constructor"s but it seems like they are just
+    // called "callback"s in spec IDLs.
+    .replace("callback constructor", "callback")
+    // Seems like webidl2.js library can't parse this, which is used in 2 places.
+    // This shows that it's no longer part of the IDL spec:
+    // https://github.com/w3c/webidl2.js/issues/127
+    .replace("legacycaller", "");
 
   try {
     return parseWebIDL(srcText);
