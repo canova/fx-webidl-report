@@ -21,6 +21,8 @@ body {
 }
 
 header {
+  display: flex;
+  justify-content: space-between;
   background: var(--primary);
   color: white;
   padding: 1rem 2rem;
@@ -32,7 +34,8 @@ header h1 {
   font-size: 1.75rem;
 }
 
-main, footer {
+main,
+footer {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
